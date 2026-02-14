@@ -20,8 +20,22 @@
       --green-glow: rgba(132,247,11,0.35);
       --text: #f0f4f1;
       --muted: #8a9490;
+      --nav-text: rgba(240,244,241,0.88);
       --heading: 'Oswald', 'Impact', sans-serif;
       --body: 'Inter', -apple-system, sans-serif;
+    }
+
+    html.light {
+      --bg: #f5f7f6;
+      --surface: #eaefec;
+      --surface-2: #dfe5e1;
+      --border: rgba(0,0,0,0.08);
+      --green: #3da600;
+      --green-dim: rgba(61,166,0,0.1);
+      --green-glow: rgba(61,166,0,0.25);
+      --text: #1a1e1b;
+      --muted: #5c6b62;
+      --nav-text: #2a2f2c;
     }
 
     html { scroll-behavior: smooth; }
@@ -59,10 +73,35 @@
     }
 
     .nav.scrolled {
-      background: rgba(7,8,9,0.88);
-      -webkit-backdrop-filter: blur(18px) saturate(1.4);
-      backdrop-filter: blur(18px) saturate(1.4);
-      box-shadow: 0 1px 0 var(--border), 0 8px 32px rgba(0,0,0,0.4);
+      background: rgba(7,8,9,0.92);
+      -webkit-backdrop-filter: blur(20px) saturate(1.6);
+      backdrop-filter: blur(20px) saturate(1.6);
+      box-shadow: 0 1px 0 var(--border), 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    html.light .nav.scrolled {
+      background: rgba(245,247,246,0.92);
+      box-shadow: 0 1px 0 var(--border), 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s, background 0.3s;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      border-color: var(--green);
+      background: var(--green-dim);
     }
 
     .nav-brand {
@@ -79,6 +118,47 @@
       color: var(--green);
     }
 
+    html.light .nav-brand {
+      color: #1a1e1b;
+    }
+
+    html.light .hero h1 { color: #fff; }
+    html.light .hero-overlay {
+      background:
+        linear-gradient(180deg,
+          rgba(245,247,246,0.2) 0%,
+          rgba(245,247,246,0.05) 30%,
+          rgba(245,247,246,0.4) 65%,
+          rgba(245,247,246,0.95) 100%
+        ),
+        linear-gradient(90deg,
+          rgba(61,166,0,0.06) 0%,
+          transparent 50%
+        );
+    }
+
+    html.light .sponsor-tile img {
+      filter: brightness(1);
+      opacity: 0.8;
+    }
+    html.light .sponsor-tile:hover img {
+      filter: none;
+      opacity: 1;
+    }
+
+    html.light .view-badge-float {
+      background: rgba(245,247,246,0.92);
+      color: var(--muted);
+    }
+
+    html.light #glow { display: none; }
+
+    html.light .menu-toggle { color: #1a1e1b; }
+
+    html.light .nav-links {
+      background: rgba(245,247,246,0.96);
+    }
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -87,21 +167,34 @@
     }
 
     .nav-links a {
-      color: var(--muted);
+      color: var(--nav-text);
       text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 2px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      padding: 8px 14px;
+      padding: 8px 16px;
       border-radius: 999px;
-      transition: color 0.25s, background 0.25s;
+      transition: color 0.25s, background 0.25s, text-shadow 0.25s;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    html.light .nav-links a {
+      text-shadow: none;
     }
 
     .nav-links a:hover,
     .nav-links a.active {
       color: #fff;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.1);
+      text-shadow: 0 0 10px rgba(132,247,11,0.25);
+    }
+
+    html.light .nav-links a:hover,
+    html.light .nav-links a.active {
+      color: var(--green);
+      background: rgba(0,0,0,0.06);
+      text-shadow: none;
     }
 
     .nav-cta {
@@ -862,6 +955,8 @@
   <nav class="nav" id="mainNav">
     <a href="#hero" class="nav-brand">GAON CHOI <span>OFFICIAL</span></a>
 
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🏂</button>
+
     <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
 
     <ul class="nav-links" id="navLinks">
@@ -1123,6 +1218,27 @@
   </footer>
 
   <script>
+    /* ── THEME TOGGLE ── */
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('gaonChoiTheme');
+
+    if (savedTheme === 'light') {
+      html.classList.add('light');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('light');
+      const isLight = html.classList.contains('light');
+      localStorage.setItem('gaonChoiTheme', isLight ? 'light' : 'dark');
+      // Flip snowfall opacity in light mode
+      if (typeof flakes !== 'undefined') {
+        flakes.forEach(f => {
+          f.lightMode = isLight;
+        });
+      }
+    });
+
     /* ── NAV scroll effect ── */
     const nav = document.getElementById('mainNav');
     const toggle = document.getElementById('menuToggle');
@@ -1207,7 +1323,8 @@
       flakes.forEach(f => {
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${f.o})`;
+        const isLight = document.documentElement.classList.contains('light');
+        ctx.fillStyle = isLight ? `rgba(100,140,110,${f.o * 0.6})` : `rgba(255,255,255,${f.o})`;
         ctx.fill();
 
         f.x += f.vx;
