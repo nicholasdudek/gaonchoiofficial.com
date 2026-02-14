@@ -1382,13 +1382,8 @@
       <div>
         <h3>Email Updates</h3>
         <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 16px;">
-          Be the first to know about contests, new content, and announcements.
+          Coming Soon
         </p>
-        <form id="updatesForm">
-          <input class="input-field" id="updatesEmail" type="email" placeholder="you@email.com" required />
-          <button class="submit-btn" type="submit">Sign Up &rarr;</button>
-          <div class="form-status" id="updatesStatus"></div>
-        </form>
       </div>
     </div>
   </section>
@@ -1571,18 +1566,6 @@
       document.getElementById('contactStatus').textContent = `Opening email draft to ${to}`;
     });
 
-    /* ── Email updates ── */
-    const uKey = 'gaonChoiOfficialUpdatesList';
-    document.getElementById('updatesForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const inp = document.getElementById('updatesEmail');
-      const email = inp.value.trim().toLowerCase();
-      if (!email) { document.getElementById('updatesStatus').textContent = 'Enter a valid email.'; return; }
-      const list = JSON.parse(localStorage.getItem(uKey) || '[]');
-      if (!list.includes(email)) { list.push(email); localStorage.setItem(uKey, JSON.stringify(list)); }
-      document.getElementById('updatesStatus').textContent = `Signed up: ${email} \u2022 ${list.length} total`;
-      inp.value = '';
-    });
   </script>
 </body>
 </html>
