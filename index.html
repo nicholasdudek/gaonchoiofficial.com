@@ -57,7 +57,7 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 1;
     }
 
     /* ── NAV ── */
@@ -970,6 +970,8 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+      position: relative;
+      z-index: 10;
     }
 
     .footer-brand {
@@ -993,9 +995,29 @@
       font-size: 0.75rem;
       font-weight: 500;
       transition: color 0.2s;
+      padding: 12px 6px;
+      display: inline-block;
+      -webkit-tap-highlight-color: rgba(132,247,11,0.15);
     }
 
     .footer-links a:hover { color: var(--green); }
+
+    @media (max-width: 768px) {
+      .site-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 80px;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .footer-links a {
+        font-size: 0.85rem;
+        padding: 14px 12px;
+      }
+    }
 
     /* ── CURSOR GLOW ── */
     #glow {
