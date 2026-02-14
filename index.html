@@ -89,19 +89,31 @@
       background: none;
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 1.2rem;
+      padding: 6px 14px 6px 10px;
+      font-size: 1.1rem;
       cursor: pointer;
       transition: transform 0.3s, border-color 0.3s, background 0.3s;
       display: flex;
       align-items: center;
+      gap: 6px;
       line-height: 1;
+      order: 10;
+      flex-shrink: 0;
     }
 
     .theme-toggle:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       border-color: var(--green);
       background: var(--green-dim);
+    }
+
+    .theme-label {
+      font-family: var(--body);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     .nav-brand {
@@ -192,14 +204,15 @@
 
     html.light .nav-links a {
       color: #1a1e1b;
-      background: rgba(255,255,255,0.7);
-      border-color: rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.55);
+      border-color: rgba(0,0,0,0.12);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
 
     html.light .nav-links a:hover,
     html.light .nav-links a.active {
-      color: var(--green);
-      background: rgba(255,255,255,0.9);
+      color: #fff;
+      background: var(--green);
       border-color: var(--green);
     }
 
@@ -361,7 +374,7 @@
       font-family: var(--heading);
       font-size: clamp(1.8rem, 3.5vw, 2.6rem);
       font-weight: 700;
-      color: #fff;
+      color: var(--text);
       line-height: 1;
     }
 
@@ -433,7 +446,7 @@
       font-size: clamp(2rem, 5vw, 3.8rem);
       font-weight: 700;
       text-transform: uppercase;
-      color: #fff;
+      color: var(--text);
       line-height: 1;
       margin-bottom: 16px;
     }
@@ -589,7 +602,7 @@
       font-family: var(--heading);
       font-size: 1.4rem;
       font-weight: 600;
-      color: #fff;
+      color: var(--text);
     }
 
     .tl-event {
@@ -692,7 +705,7 @@
       border-radius: 12px;
       padding: 16px 24px;
       text-decoration: none;
-      color: #fff;
+      color: var(--text);
       font-weight: 600;
       font-size: 0.88rem;
       transition: border-color 0.3s, background 0.3s, transform 0.3s;
@@ -762,7 +775,7 @@
       font-family: var(--heading);
       font-size: 1.3rem;
       font-weight: 600;
-      color: #fff;
+      color: var(--text);
       text-transform: uppercase;
       margin-bottom: 16px;
     }
@@ -961,8 +974,6 @@
   <nav class="nav" id="mainNav">
     <a href="#hero" class="nav-brand">GAON CHOI <span>OFFICIAL</span></a>
 
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🏂</button>
-
     <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
 
     <ul class="nav-links" id="navLinks">
@@ -973,6 +984,10 @@
       <li><a href="#social">Social</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+      🏂 <span class="theme-label" id="themeLabel">Dark</span>
+    </button>
   </nav>
 
   <!-- ═══ HERO ═══ -->
@@ -1229,13 +1244,17 @@
     const html = document.documentElement;
     const savedTheme = localStorage.getItem('gaonChoiTheme');
 
+    const themeLabel = document.getElementById('themeLabel');
+
     if (savedTheme === 'light') {
       html.classList.add('light');
+      themeLabel.textContent = 'Light';
     }
 
     themeToggle.addEventListener('click', () => {
       html.classList.toggle('light');
       const isLight = html.classList.contains('light');
+      themeLabel.textContent = isLight ? 'Light' : 'Dark';
       localStorage.setItem('gaonChoiTheme', isLight ? 'light' : 'dark');
       // Flip snowfall opacity in light mode
       if (typeof flakes !== 'undefined') {
