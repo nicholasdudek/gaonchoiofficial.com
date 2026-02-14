@@ -1607,18 +1607,32 @@
     }
     drawSnow();
 
-    /* ── View counter ── */
+    /* ── View counter (shared across all visitors via CounterAPI) ── */
     const viewEl = document.getElementById('viewCount');
-    const vKey = 'gaonChoiOfficialTotalViews';
-    const visitedKey = 'gaonChoiOfficialVisited';
-    const cur = Number(localStorage.getItem(vKey) || '0');
-    const visited = localStorage.getItem(visitedKey) === '1';
-    const next = visited ? cur : cur + 1;
-    if (!visited) {
-      localStorage.setItem(vKey, String(next));
-      localStorage.setItem(visitedKey, '1');
-    }
-    viewEl.textContent = String(next);
+    const sessionKey = 'gaonChoiOfficialCounted';
+    const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
+
+    // Use CounterAPI.dev — free, no auth, persistent shared counter
+    const counterNs = 'gaonchoiofficial-com';
+    const counterKey = 'page-views';
+    const endpoint = alreadyCounted
+      ? `https://api.counterapi.dev/v1/${counterNs}/${counterKey}`        // just read
+      : `https://api.counterapi.dev/v1/${counterNs}/${counterKey}/up`;    // increment + read
+
+    fetch(endpoint)
+      .then(r => r.json())
+      .then(data => {
+        viewEl.textContent = String(data.count || 1);
+        sessionStorage.setItem(sessionKey, '1');
+      })
+      .catch(() => {
+        // Fallback to localStorage if API unreachable
+        const lsKey = 'gaonChoiOfficialFallbackViews';
+        const cur = Number(localStorage.getItem(lsKey) || '0') + (alreadyCounted ? 0 : 1);
+        localStorage.setItem(lsKey, String(cur));
+        viewEl.textContent = String(cur);
+        sessionStorage.setItem(sessionKey, '1');
+      });
 
     /* ── Contact form ── */
     document.getElementById('contactForm').addEventListener('submit', (e) => {
