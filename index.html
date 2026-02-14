@@ -167,34 +167,40 @@
     }
 
     .nav-links a {
-      color: var(--green);
+      color: #fff;
       text-decoration: none;
       font-size: 0.78rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       padding: 8px 16px;
       border-radius: 999px;
-      transition: color 0.25s, background 0.25s, text-shadow 0.25s;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-    }
-
-    html.light .nav-links a {
-      text-shadow: none;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.1);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      transition: color 0.25s, background 0.25s, border-color 0.25s, transform 0.2s;
     }
 
     .nav-links a:hover,
     .nav-links a.active {
       color: #fff;
-      background: rgba(132,247,11,0.15);
-      text-shadow: 0 0 10px rgba(132,247,11,0.35);
+      background: rgba(132,247,11,0.25);
+      border-color: var(--green);
+      transform: translateY(-1px);
+    }
+
+    html.light .nav-links a {
+      color: #1a1e1b;
+      background: rgba(255,255,255,0.7);
+      border-color: rgba(0,0,0,0.1);
     }
 
     html.light .nav-links a:hover,
     html.light .nav-links a.active {
       color: var(--green);
-      background: rgba(0,0,0,0.06);
-      text-shadow: none;
+      background: rgba(255,255,255,0.9);
+      border-color: var(--green);
     }
 
     .nav-cta {
