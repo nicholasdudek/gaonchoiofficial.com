@@ -170,6 +170,21 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
 
+    @media (max-width: 768px) {
+      .theme-toggle {
+        position: fixed;
+        top: 16px;
+        bottom: auto;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        z-index: 1001;
+      }
+      .theme-toggle:hover {
+        transform: translateX(-50%) scale(1.05);
+      }
+    }
+
     .theme-toggle:hover {
       transform: scale(1.05);
       border-color: var(--green);
@@ -320,8 +335,9 @@
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
-        margin-left: auto;
-        position: relative;
+        position: fixed;
+        top: 16px;
+        right: clamp(16px, 4vw, 48px);
         z-index: 1001;
       }
       .nav-links {
