@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAON CHOI OFFICIAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070809;
+      --surface: #0e1012;
+      --surface-2: #151719;
+      --border: rgba(255,255,255,0.06);
+      --green: #84f70b;
+      --green-dim: rgba(132,247,11,0.12);
+      --green-glow: rgba(132,247,11,0.35);
+      --text: #f0f4f1;
+      --muted: #8a9490;
+      --heading: 'Oswald', 'Impact', sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SNOWFALL CANVAS ── */
+    #snow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 0 clamp(16px, 4vw, 48px);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(7,8,9,0.88);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+      backdrop-filter: blur(18px) saturate(1.4);
+      box-shadow: 0 1px 0 var(--border), 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .nav-brand {
+      font-family: var(--heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-brand span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 999px;
+      transition: color 0.25s, background 0.25s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .nav-cta {
+      color: #070809 !important;
+      background: var(--green) !important;
+      font-weight: 800 !important;
+    }
+
+    .nav-cta:hover {
+      background: #9fff3a !important;
+    }
+
+    /* mobile menu */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: fixed;
+        inset: 0;
+        background: rgba(7,8,9,0.96);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a { font-size: 1.1rem; padding: 14px 24px; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        url('https://www.snowboarder.com/.image/w_1920,q_auto:good,c_limit/MjE6MDAwMDAwMDAwMTAxNTI4/snowboard-milano-cortina-2026-winter-olympics-day-5-101528.jpg')
+        center/cover no-repeat;
+      transform: scale(1.08);
+      animation: heroZoom 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroZoom {
+      0% { transform: scale(1.08) translateY(0); }
+      100% { transform: scale(1.14) translateY(-8px); }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(7,8,9,0.3) 0%,
+          rgba(7,8,9,0.1) 30%,
+          rgba(7,8,9,0.5) 65%,
+          rgba(7,8,9,0.95) 100%
+        ),
+        linear-gradient(90deg,
+          rgba(132,247,11,0.06) 0%,
+          transparent 50%
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: clamp(24px, 5vw, 80px);
+      padding-bottom: clamp(48px, 8vh, 120px);
+      max-width: 900px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(132,247,11,0.12);
+      border: 1px solid rgba(132,247,11,0.25);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 20px;
+      animation: fadeUp 1s 0.2s both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(3.5rem, 11vw, 9rem);
+      font-weight: 700;
+      line-height: 0.88;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: -1px;
+      animation: fadeUp 1s 0.4s both;
+    }
+
+    .hero h1 .accent {
+      -webkit-text-stroke: 2px var(--green);
+      color: transparent;
+    }
+
+    .hero-sub {
+      margin-top: 18px;
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+      color: var(--muted);
+      max-width: 520px;
+      font-weight: 400;
+      animation: fadeUp 1s 0.6s both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      animation: fadeUp 1s 0.8s both;
+    }
+
+    .stat { text-align: left; }
+
+    .stat-num {
+      font-family: var(--heading);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .stat-num .g { color: var(--green); }
+
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: fadeUp 1s 1.2s both;
+    }
+
+    .scroll-hint span {
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--green), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    @keyframes scrollPulse {
+      0% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.3; transform: scaleY(0.6); }
+      100% { opacity: 1; transform: scaleY(1); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      padding: clamp(60px, 10vh, 120px) clamp(16px, 5vw, 80px);
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 560px;
+      font-size: 0.95rem;
+      margin-bottom: 48px;
+    }
+
+    /* reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* green line decoration */
+    .green-line {
+      width: 48px;
+      height: 3px;
+      background: var(--green);
+      border-radius: 999px;
+      margin-bottom: 24px;
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--surface); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(1.1) contrast(1.05);
+    }
+
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .gallery-item:hover::after { opacity: 1; }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      right: 14px;
+      z-index: 2;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-column: span 2; }
+    }
+
+    /* ── RESULTS / TIMELINE ── */
+    #results { background: var(--bg); }
+
+    .timeline {
+      position: relative;
+      max-width: 700px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--green), var(--border));
+    }
+
+    .tl-item {
+      padding-left: 36px;
+      padding-bottom: 40px;
+      position: relative;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+
+    .tl-item.gold::before {
+      width: 16px;
+      height: 16px;
+      left: -7px;
+      top: 4px;
+      background: #ffd700;
+      box-shadow: 0 0 16px rgba(255,215,0,0.5);
+    }
+
+    .tl-year {
+      font-family: var(--heading);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .tl-event {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 2px;
+    }
+
+    .tl-result {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    .tl-item.gold .tl-result {
+      background: rgba(255,215,0,0.12);
+      color: #ffd700;
+    }
+
+    /* ── SPONSORS ── */
+    #sponsors { background: var(--surface); }
+
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+
+    .sponsor-tile {
+      background: var(--surface-2);
+      border-radius: 6px;
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+      border: 1px solid transparent;
+    }
+
+    .sponsor-tile:hover {
+      background: rgba(132,247,11,0.04);
+      border-color: rgba(132,247,11,0.15);
+      transform: translateY(-3px);
+    }
+
+    .sponsor-tile img {
+      height: 36px;
+      max-width: 120px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.7;
+      transition: opacity 0.3s, filter 0.3s;
+    }
+
+    .sponsor-tile:hover img {
+      opacity: 1;
+      filter: none;
+    }
+
+    .sponsor-name {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .sponsor-tile:hover .sponsor-name { color: var(--green); }
+
+    @media (max-width: 900px) {
+      .sponsors-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── PROFILES ── */
+    #profiles { background: var(--bg); }
+
+    .profiles-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .profile-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+
+    .profile-link:hover {
+      border-color: var(--green);
+      background: var(--green-dim);
+      transform: translateY(-2px);
+    }
+
+    .profile-link .arrow {
+      color: var(--muted);
+      transition: transform 0.3s, color 0.3s;
+      font-size: 1.1rem;
+    }
+
+    .profile-link:hover .arrow {
+      transform: translateX(3px);
+      color: var(--green);
+    }
+
+    /* ── INSTAGRAM ── */
+    #social { background: var(--surface); }
+
+    .ig-embed-wrap {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .ig-follow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      border-radius: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .ig-follow-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(131,58,180,0.3);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 800px;
+    }
+
+    .contact-grid h3 {
+      font-family: var(--heading);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .input-field {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 0.85rem;
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .input-field:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-dim);
+    }
+
+    textarea.input-field {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: var(--green);
+      color: #070809;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.03);
+      background: #9fff3a;
+    }
+
+    .form-status {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      min-height: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 40px clamp(16px, 5vw, 80px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      font-family: var(--heading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--green); }
+
+    /* ── CURSOR GLOW ── */
+    #glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(132,247,11,0.08) 0%, transparent 70%);
+      mix-blend-mode: screen;
+      transition: transform 60ms linear;
+      will-change: transform;
+    }
+
+    /* view badge */
+    .view-badge-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(14,16,18,0.9);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .view-badge-float strong {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    /* GLITCH TEXT on hero */
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      color: #0ff;
+      z-index: -1;
+      animation: glitchA 3s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      color: #f0f;
+      z-index: -2;
+      animation: glitchB 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitchA {
+      0%, 94% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      95% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 1px); }
+      96% { clip-path: inset(50% 0 30% 0); transform: translate(3px, -1px); }
+      97% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 2px); }
+      98% { clip-path: inset(10% 0 80% 0); transform: translate(2px, -2px); }
+      100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    }
+
+    @keyframes glitchB {
+      0%, 96% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      97% { clip-path: inset(40% 0 40% 0); transform: translate(2px, 1px); }
+      98% { clip-path: inset(60% 0 20% 0); transform: translate(-2px, -1px); }
+      100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- SNOWFALL -->
+  <canvas id="snow"></canvas>
+
+  <!-- CURSOR GLOW -->
+  <div id="glow" aria-hidden="true"></div>
+
+  <!-- VIEW COUNT -->
+  <div class="view-badge-float" aria-live="polite">
+    Views <strong id="viewCount">0</strong>
+  </div>
+
+  <!-- ═══ NAV ═══ -->
+  <nav class="nav" id="mainNav">
+    <a href="#hero" class="nav-brand">GAON CHOI <span>OFFICIAL</span></a>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#sponsors">Sponsors</a></li>
+      <li><a href="#profiles">Profiles</a></li>
+      <li><a href="#social">Social</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag">Milano Cortina 2026 Olympic Gold Medalist</div>
+
+      <h1>
+        <span class="glitch" data-text="GAON">GAON</span><br/>
+        <span class="accent">CHOI</span>
+      </h1>
+
+      <p class="hero-sub">
+        South Korea's halfpipe prodigy. X Games champion. Olympic gold at 19.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num"><span class="g">90</span>.25</div>
+          <div class="stat-label">Olympic Score</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num"><span class="g">1</span>st</div>
+          <div class="stat-label">Olympic Gold</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">X<span class="g">G</span></div>
+          <div class="stat-label">Games Champion</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ GALLERY ═══ -->
+  <section id="gallery">
+    <div class="reveal">
+      <div class="section-label">Gallery</div>
+      <div class="section-title">On the Mountain</div>
+      <div class="green-line"></div>
+    </div>
+
+    <div class="gallery-grid reveal">
+      <div class="gallery-item">
+        <img
+          src="https://www.snowboarder.com/.image/w_1920,q_auto:good,c_limit/MjE6MDAwMDAwMDAwMTAxNTI4/snowboard-milano-cortina-2026-winter-olympics-day-5-101528.jpg"
+          alt="Gaon Choi halfpipe run at Milano Cortina 2026"
+          loading="lazy"
+        />
+        <span class="gallery-caption">Halfpipe Finals — Milano 2026</span>
+      </div>
+      <div class="gallery-item">
+        <img
+          src="https://www.snowboarder.com/.image/w_1920,q_auto:good,c_limit/MjE6MDAwMDAwMDAwMTAxNTMy/gettyimages-2261304731.jpg"
+          alt="Gaon Choi celebrating Olympic gold"
+          loading="lazy"
+        />
+        <span class="gallery-caption">Gold Medal Moment</span>
+      </div>
+      <div class="gallery-item">
+        <img
+          src="https://media.gettyimages.com/id/2261308668/photo/snowboard-milano-cortina-2026-winter-olympics-day-6.webp?s=612x612&w=gi&k=20&c=OBRmoOnCQSsdqCBtZyHsyz3LCpDg71HCGFataGtJMRE="
+          alt="Medal ceremony at Milano Cortina 2026"
+          loading="lazy"
+        />
+        <span class="gallery-caption">Medal Ceremony — Choi, Kim, Ono</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RESULTS ═══ -->
+  <section id="results">
+    <div class="reveal">
+      <div class="section-label">Competition</div>
+      <div class="section-title">Career Highlights</div>
+      <div class="green-line"></div>
+      <p class="section-desc">From junior worlds to the Olympic podium.</p>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item gold">
+        <div class="tl-year">2026</div>
+        <div class="tl-event">Milano Cortina Winter Olympics — Women's Halfpipe</div>
+        <span class="tl-result">Gold Medal — 90.25</span>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025–26</div>
+        <div class="tl-event">FIS Snowboard World Cup Season — Halfpipe</div>
+        <span class="tl-result">Multiple Wins</span>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023–24</div>
+        <div class="tl-event">FIS Snowboard World Cup — Copper Mountain</div>
+        <span class="tl-result">1st Place</span>
+      </div>
+      <div class="tl-item gold">
+        <div class="tl-year">2023</div>
+        <div class="tl-event">Winter X Games XXVII — SuperPipe</div>
+        <span class="tl-result">Gold — Youngest Winner</span>
+      </div>
+      <div class="tl-item gold">
+        <div class="tl-year">2022</div>
+        <div class="tl-event">FIS Junior World Championships — Halfpipe</div>
+        <span class="tl-result">Gold Medal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SPONSORS ═══ -->
+  <section id="sponsors">
+    <div class="reveal">
+      <div class="section-label">Partners</div>
+      <div class="section-title">Sponsors</div>
+      <div class="green-line"></div>
+    </div>
+
+    <div class="sponsors-grid reveal">
+      <a class="sponsor-tile" href="https://www.instagram.com/monsterenergy" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/monsterenergy.com" alt="Monster Energy" />
+        <span class="sponsor-name">Monster Energy</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/burton" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/burton.com" alt="Burton" />
+        <span class="sponsor-name">Burton</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/oakley" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/oakley.com" alt="Oakley" />
+        <span class="sponsor-name">Oakley</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/mammothsnowboardteam" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/mammothmountain.com" alt="Mammoth Mountain" />
+        <span class="sponsor-name">Mammoth Mountain</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/bibigo.kr" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/bibigo.com" alt="Bibigo" />
+        <span class="sponsor-name">Bibigo</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/shinhangroup_official" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/shinhan.com" alt="Shinhan Group" />
+        <span class="sponsor-name">Shinhan Group</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/shinhancard_official" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/shinhancard.com" alt="Shinhan Card" />
+        <span class="sponsor-name">Shinhan Card</span>
+      </a>
+      <a class="sponsor-tile" href="https://www.instagram.com/lottewellfood" target="_blank" rel="noopener noreferrer">
+        <img src="https://logo.clearbit.com/lottewellfood.com" alt="Lotte Wellfood" />
+        <span class="sponsor-name">Lotte Wellfood</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ PROFILES ═══ -->
+  <section id="profiles">
+    <div class="reveal">
+      <div class="section-label">Links</div>
+      <div class="section-title">Official Profiles</div>
+      <div class="green-line"></div>
+    </div>
+
+    <div class="profiles-row reveal">
+      <a class="profile-link" href="https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=SB&competitorid=264594&type=result" target="_blank" rel="noopener noreferrer">
+        FIS Athlete Page <span class="arrow">&#8594;</span>
+      </a>
+      <a class="profile-link" href="https://www.xgames.com/athletes/gaon-choi" target="_blank" rel="noopener noreferrer">
+        X Games Profile <span class="arrow">&#8594;</span>
+      </a>
+      <a class="profile-link" href="https://www.nbcolympics.com/athletes/gaon-choi-45248" target="_blank" rel="noopener noreferrer">
+        NBC Olympics <span class="arrow">&#8594;</span>
+      </a>
+      <a class="profile-link" href="https://en.wikipedia.org/wiki/Choi_Ga-on" target="_blank" rel="noopener noreferrer">
+        Wikipedia <span class="arrow">&#8594;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ SOCIAL ═══ -->
+  <section id="social">
+    <div class="reveal">
+      <div class="section-label">Social</div>
+      <div class="section-title">@gaon.sb</div>
+      <div class="green-line"></div>
+    </div>
+
+    <div class="ig-embed-wrap reveal">
+      <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DUvq93QjLye/" data-instgrm-version="14" style="background:#000; border:0; border-radius:12px; margin:0; max-width:540px; min-width:326px; padding:0; width:100%;">
+      </blockquote>
+      <script async src="//www.instagram.com/embed.js"></script>
+
+      <div style="text-align: center;">
+        <a class="ig-follow-btn" href="https://www.instagram.com/gaon.sb" target="_blank" rel="noopener noreferrer">
+          Follow @gaon.sb
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="section-label">Get in touch</div>
+      <div class="section-title">Contact</div>
+      <div class="green-line"></div>
+    </div>
+
+    <div class="contact-grid reveal">
+      <div>
+        <h3>Send a Message</h3>
+        <form id="contactForm">
+          <input class="input-field" id="contactTo" type="email" value="contact@gaonchoiofficial.com" />
+          <input class="input-field" id="contactName" type="text" placeholder="Your name" required />
+          <input class="input-field" id="contactEmail" type="email" placeholder="Your email" required />
+          <textarea class="input-field" id="contactMsg" placeholder="Message" required></textarea>
+          <button class="submit-btn" type="submit">Send &rarr;</button>
+          <div class="form-status" id="contactStatus"></div>
+        </form>
+      </div>
+
+      <div>
+        <h3>Email Updates</h3>
+        <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 16px;">
+          Be the first to know about contests, new content, and announcements.
+        </p>
+        <form id="updatesForm">
+          <input class="input-field" id="updatesEmail" type="email" placeholder="you@email.com" required />
+          <button class="submit-btn" type="submit">Sign Up &rarr;</button>
+          <div class="form-status" id="updatesStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer">
+    <div class="footer-brand">GAON CHOI OFFICIAL &copy; 2026</div>
+    <ul class="footer-links">
+      <li><a href="#hero">Top</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#sponsors">Sponsors</a></li>
+      <li><a href="https://www.instagram.com/gaon.sb" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    /* ── NAV scroll effect ── */
+    const nav = document.getElementById('mainNav');
+    const toggle = document.getElementById('menuToggle');
+    const links = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+      toggle.textContent = links.classList.contains('open') ? '\u2715' : '\u2630';
+    });
+
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.textContent = '\u2630';
+      });
+    });
+
+    /* ── Active nav link on scroll ── */
+    const sections = document.querySelectorAll('section[id]');
+    const navAnchors = links.querySelectorAll('a[href^="#"]');
+
+    function updateActiveLink() {
+      const scrollY = window.scrollY + 120;
+      sections.forEach(sec => {
+        if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+          const id = sec.id;
+          navAnchors.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }
+    window.addEventListener('scroll', updateActiveLink);
+
+    /* ── Reveal on scroll ── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${Math.min(i * 60, 300)}ms`;
+      observer.observe(el);
+    });
+
+    /* ── Cursor glow ── */
+    const glow = document.getElementById('glow');
+    window.addEventListener('mousemove', (e) => {
+      glow.style.transform = `translate(${e.clientX - 150}px, ${e.clientY - 150}px)`;
+    });
+
+    /* ── Snowfall ── */
+    const canvas = document.getElementById('snow');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const flakes = Array.from({ length: 80 }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 2.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: Math.random() * 1.2 + 0.3,
+      o: Math.random() * 0.5 + 0.15,
+    }));
+
+    function drawSnow() {
+      ctx.clearRect(0, 0, W, H);
+      flakes.forEach(f => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${f.o})`;
+        ctx.fill();
+
+        f.x += f.vx;
+        f.y += f.vy;
+
+        if (f.y > H + 10) { f.y = -10; f.x = Math.random() * W; }
+        if (f.x > W + 10) f.x = -10;
+        if (f.x < -10) f.x = W + 10;
+      });
+      requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
+
+    /* ── View counter ── */
+    const viewEl = document.getElementById('viewCount');
+    const vKey = 'gaonChoiOfficialTotalViews';
+    const visitedKey = 'gaonChoiOfficialVisited';
+    const cur = Number(localStorage.getItem(vKey) || '0');
+    const visited = localStorage.getItem(visitedKey) === '1';
+    const next = visited ? cur : cur + 1;
+    if (!visited) {
+      localStorage.setItem(vKey, String(next));
+      localStorage.setItem(visitedKey, '1');
+    }
+    viewEl.textContent = String(next);
+
+    /* ── Contact form ── */
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const to = document.getElementById('contactTo').value.trim();
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const msg = document.getElementById('contactMsg').value.trim();
+      if (!to || !name || !email || !msg) {
+        document.getElementById('contactStatus').textContent = 'Fill all fields.';
+        return;
+      }
+      const subj = encodeURIComponent(`GaonChoiOfficial Contact from ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+      window.location.href = `mailto:${to}?subject=${subj}&body=${body}`;
+      document.getElementById('contactStatus').textContent = `Opening email draft to ${to}`;
+    });
+
+    /* ── Email updates ── */
+    const uKey = 'gaonChoiOfficialUpdatesList';
+    document.getElementById('updatesForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const inp = document.getElementById('updatesEmail');
+      const email = inp.value.trim().toLowerCase();
+      if (!email) { document.getElementById('updatesStatus').textContent = 'Enter a valid email.'; return; }
+      const list = JSON.parse(localStorage.getItem(uKey) || '[]');
+      if (!list.includes(email)) { list.push(email); localStorage.setItem(uKey, JSON.stringify(list)); }
+      document.getElementById('updatesStatus').textContent = `Signed up: ${email} \u2022 ${list.length} total`;
+      inp.value = '';
+    });
+  </script>
+</body>
+</html>
