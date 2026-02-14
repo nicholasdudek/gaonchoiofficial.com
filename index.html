@@ -225,12 +225,7 @@
       opacity: 1;
     }
 
-    html.light .view-badge-float {
-      background: rgba(255,255,255,0.85);
-      border-color: rgba(0,0,0,0.18);
-      color: #1a1e1b;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
+
 
     html.light #glow { display: none; }
 
@@ -432,21 +427,7 @@
         color: #070809;
       }
 
-      .view-badge-float {
-        position: fixed;
-        bottom: 74px;
-        left: 24px;
-        z-index: 100;
-        background: var(--surface);
-        border-color: var(--border);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-      }
 
-      html.light .view-badge-float {
-        background: #fff;
-        border: 2px solid var(--green);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-      }
     }
 
     @media (max-width: 480px) {
@@ -1116,28 +1097,7 @@
       will-change: transform;
     }
 
-    /* view badge */
-    .view-badge-float {
-      display: none;
-      background: rgba(7,8,9,0.7);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 999px;
-      padding: 6px 14px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--green);
-      flex-shrink: 0;
-      order: 9;
-    }
 
-    .view-badge-float strong {
-      color: var(--green);
-      font-weight: 900;
-    }
 
     /* GLITCH TEXT on hero */
     .glitch {
@@ -1207,10 +1167,6 @@
       <li><a href="#social">Social</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
-
-    <div class="view-badge-float" aria-live="polite">
-      Views <strong id="viewCount">0</strong>
-    </div>
 
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
       🏂 <span class="theme-label" id="themeLabel">Dark</span>
@@ -1621,32 +1577,7 @@
     }
     drawSnow();
 
-    /* ── View counter (shared across all visitors via CounterAPI) ── */
-    const viewEl = document.getElementById('viewCount');
-    const sessionKey = 'gaonChoiOfficialCounted';
-    const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
 
-    // Use CounterAPI.dev — free, no auth, persistent shared counter
-    const counterNs = 'gaonchoiofficial-com';
-    const counterKey = 'page-views';
-    const endpoint = alreadyCounted
-      ? `https://api.counterapi.dev/v1/${counterNs}/${counterKey}`        // just read
-      : `https://api.counterapi.dev/v1/${counterNs}/${counterKey}/up`;    // increment + read
-
-    fetch(endpoint)
-      .then(r => r.json())
-      .then(data => {
-        viewEl.textContent = String(data.count || 1);
-        sessionStorage.setItem(sessionKey, '1');
-      })
-      .catch(() => {
-        // Fallback to localStorage if API unreachable
-        const lsKey = 'gaonChoiOfficialFallbackViews';
-        const cur = Number(localStorage.getItem(lsKey) || '0') + (alreadyCounted ? 0 : 1);
-        localStorage.setItem(lsKey, String(cur));
-        viewEl.textContent = String(cur);
-        sessionStorage.setItem(sessionKey, '1');
-      });
 
     /* ── Contact form ── */
     document.getElementById('contactForm').addEventListener('submit', (e) => {
